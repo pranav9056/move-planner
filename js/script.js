@@ -25,7 +25,24 @@ function loadData() {
     else {
       imgData.attr("src",imgSrc);
     }
-    // YOUR CODE GOES HERE!
+    // NYT api
+    var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+    url += '?' + $.param({
+      'api-key': "f55f69b6d8f748b88fefd21bbfcb6e96",
+      'q': city
+    });
+    $.getJSON(url,function getNews(data){
+      $nytHeaderElem.text("New York Times Articles About "+city);
+      var newsList = $('.article-list');
+      var listElem = '<li class="article">%data%</li>'
+      data.response.docs.forEach(function (newsArticle){
+        var link = '<a href="'+newsArticle.web_url+'">'+newsArticle.headline.main+'</a>';
+        link+= '<p>'+newsArticle.snippet+'</p>';
+        var story = listElem.replace("%data%",link);
+        newsList.append(story);
+
+      });
+    });
 
     return false;
 };
