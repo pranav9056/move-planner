@@ -33,20 +33,34 @@ function loadData() {
     });
     $.getJSON(url,function getNews(data){
       $nytHeaderElem.text("New York Times Articles About "+city);
-      var newsList = $('.article-list');
       var listElem = '<li class="article">%data%</li>'
       data.response.docs.forEach(function (newsArticle){
         var link = '<a href="'+newsArticle.web_url+'">'+newsArticle.headline.main+'</a>';
         link+= '<p>'+newsArticle.snippet+'</p>';
         var story = listElem.replace("%data%",link);
-        newsList.append(story);
+        $nytElem.append(story);
 
       });
     }).fail(function(){
       $nytHeaderElem.text("New York Times Articles could not be loaded");
     });
 
-    return false;
+  //Wikipedia API
+  url = "https://en.wikipedia.org/w/api.php?action=opensearch&search="+city+"&format=json";
+  $.ajax(url,{
+    dataType:"jsonp",
+    success: function(data){
+      var links = data[3];
+      var name = data[1]
+      for(var i=0; i<name.length;i++){
+        $wikiElem.append('<li><a href="'+links[i]+'">'+name[i]+'</a></li>');
+      }
+
+      console.log(data);
+    }
+  });
+  console.log(url);
+  return false;
 };
 
 $('#form-container').submit(loadData);
