@@ -12,7 +12,19 @@ function loadData() {
     $nytElem.text("");
 
     // load streetview
-
+    var street = $('#street').val();
+    var city = $('#city').val();
+    var greeting = $('#greeting');
+    greeting.text("So you want to live at "+street+" "+city+" ?");
+    var imgSrc = "https://maps.googleapis.com/maps/api/streetview?size=600x400&location="+street+", "+city+"&key=AIzaSyCdLFiNwR1IWcboPnskveRE-inIx3PrCMg";
+    var imgData = $('.bgimg');
+    if(imgData.length === 0){
+      var imgTag = '<img class="bgimg" src="'+imgSrc+'">';
+      $body.append(imgTag);
+    }
+    else {
+      imgData.attr("src",imgSrc);
+    }
     // YOUR CODE GOES HERE!
 
     return false;
