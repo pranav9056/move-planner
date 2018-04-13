@@ -42,6 +42,8 @@ function loadData() {
         newsList.append(story);
 
       });
+    }).fail(function(){
+      $nytHeaderElem.text("New York Times Articles could not be loaded");
     });
 
     return false;
