@@ -47,19 +47,21 @@ function loadData() {
 
   //Wikipedia API
   url = "https://en.wikipedia.org/w/api.php?action=opensearch&search="+city+"&format=json";
+  var requestTimeout = setTimeout(function(){
+    $wikiElem.text("Failed to get Wikipedia Links")
+  },8000);
   $.ajax(url,{
     dataType:"jsonp",
     success: function(data){
+      clearTimeout(requestTimeout);
       var links = data[3];
       var name = data[1]
       for(var i=0; i<name.length;i++){
         $wikiElem.append('<li><a href="'+links[i]+'">'+name[i]+'</a></li>');
       }
 
-      console.log(data);
     }
   });
-  console.log(url);
   return false;
 };
 
